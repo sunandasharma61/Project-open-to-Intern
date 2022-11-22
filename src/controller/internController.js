@@ -114,7 +114,10 @@ const collegeDetails = async function (req, res) {
         //...................................................for finding interns..................................................................................
 
         let findintern = await internModel.find({ collegeId: collegeData._id }).select({ name: 1, email: 1, mobile: 1, _id: 1 })
+         if (findintern.length ==0){
+            return res.status(404).send({ status: false, msg: "No such intern's are present" })
 
+         }
         const data = {
             name: collegeData.name,
             fullName: collegeData.fullName,

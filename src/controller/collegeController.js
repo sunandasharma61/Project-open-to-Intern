@@ -27,7 +27,7 @@ const createCollege = async function (req, res) {
         
 //.......................................................for alphabets only..............................................................................
 
-        if (! /^[a-zA-Z ]+$/.test(name))
+        if (! /^[a-z ]+$/.test(name))
         {
             return res.status(400).send({status:false,msg:"name should be in alphabets"}) 
         }
