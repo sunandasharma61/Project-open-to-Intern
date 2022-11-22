@@ -17,31 +17,31 @@ const createInterns = async function (req, res) {
         //.................................................for empty response..................................................................................    
 
         if (Object.keys(internData).length == 0) {
-            return res.status(400).send({ status: false, msg: "please enter intern details" })
+            return res.status(400).send({ status: false, msg: "please enter intern's details" })
         }
 
         //..................................................for no name given..................................................................................
 
         if (!name) {
-            return res.status(400).send({ status: false, msg: "please provide name" })
+            return res.status(400).send({ status: false, msg: "please provide intern's name" })
         }
 
         //..................................................for name in alphabet only...........................................................................
 
         if (!(/^[a-zA-Z ]+$/.test(name))) {
-            return res.status(400).send({ status: false, msg: "name should be in alphabets" })
+            return res.status(400).send({ status: false, msg: "intern's name should be in alphabets" })
         }
 
         //..................................................for no email given..................................................................................
 
         if (!email) {
-            return res.status(400).send({ status: false, msg: "please provide email id" })
+            return res.status(400).send({ status: false, msg: "please provide intern's email id" })
         }
 
         //..................................................for valid email.....................................................................................
 
         if (!/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(email)) {
-            return res.status(400).send({ status: false, msg: "enter valid email" })
+            return res.status(400).send({ status: false, msg: "enter valid intern's email" })
         }
 
         //..................................................for same email given................................................................................
@@ -54,7 +54,7 @@ const createInterns = async function (req, res) {
         //...................................................for no mobile number given..........................................................................
 
         if (!mobile) {
-            return res.status(400).send({ status: false, msg: "please provide mobile number" })
+            return res.status(400).send({ status: false, msg: "please provide intern'smobile number" })
         }
 
         //....................................................for same mobile number given........................................................................     
@@ -107,13 +107,13 @@ const collegeDetails = async function (req, res) {
         //...................................................for no data matching..................................................................................
 
         const collegeData = await collegeModel.findOne({ name: CollegeName })
-        if (collegeData.length == 0) {
+        if (!collegeData) {
             return res.status(404).send({ status: false, msg: "No such college are present" })
         }
 
         //...................................................for finding interns..................................................................................
 
-        let findintern = await internModel.find({ collegeId: collegeData._id }).select({name:1,email:1,mobile:1,_id:1})
+        let findintern = await internModel.find({ collegeId: collegeData._id }).select({ name: 1, email: 1, mobile: 1, _id: 1 })
 
         const data = {
             name: collegeData.name,

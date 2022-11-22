@@ -27,7 +27,7 @@ const createCollege = async function (req, res) {
         
 //.......................................................for alphabets only..............................................................................
 
-        if (! /^[a-zA-Z]+$/.test(name))
+        if (! /^[a-zA-Z ]+$/.test(name))
         {
             return res.status(400).send({status:false,msg:"name should be in alphabets"}) 
         }
@@ -36,7 +36,7 @@ const createCollege = async function (req, res) {
       
         if (name.indexOf(" ") >= 0)
         {
-            return res.status(400).send({ status: false, msg: "Name should not have space." }) 
+            return res.status(400).send({ status: false, msg: "Name should not have space" }) 
         }
         
 //........................................................Already taken name.............................................................................        
@@ -57,7 +57,7 @@ const createCollege = async function (req, res) {
 
         if (!(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(fullName))) 
         {   
-            return res.status(400).send({ status: false, message: "valid full name is should contain Alphabets" })
+            return res.status(400).send({ status: false, message: "valid full name should contain Alphabets" })
         }
 
 //.....................................................for Same Name................................................................................
@@ -81,16 +81,10 @@ const createCollege = async function (req, res) {
 
 //.....................................................for creating College................................................................................       
 
-        const find = await collegeModel.findOne(data)
-        if (find)
-        {
-            return res.status(400).send({ status: false, msg: "Do not create college , Entries are already Present" })
-        } 
-        else 
-        {
+    
             let result = await collegeModel.create(data)
             res.status(201).send({ status: true, data: result })
-        }
+        
     }
  //....................................................for exceptional error.................................................................................        
    
