@@ -47,7 +47,7 @@ const createCollege = async function (req, res) {
 
 //.....................................................................................................................................
 
-        if (!(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(fullName))) {
+        if (!(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(fullName))) {   //for alphabetic orders
             return res.status(400).send({ status: false, message: "valid full name is should contain Alphabets" })
         }
 
@@ -55,7 +55,7 @@ const createCollege = async function (req, res) {
 
         let findcollgeName = await collegeModel.findOne({fullName:fullName})
         if(findcollgeName){
-            return res.status(400).send({status:false,msg:"college full name is already taken"})
+            return res.status(400).send({status:false,msg:"College full name is already taken"})
         }
 
 //.....................................................................................................................................
