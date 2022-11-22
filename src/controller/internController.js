@@ -9,51 +9,56 @@ const collegeModel = require("../model/collegeModel");
 const createInterns = async function (req, res) {
     
     try {
+
+//....................................................................................................................................................
+
         const internData = req.body
-        const { name, email, mobile } = internData
+        const { name, email, mobile } = internData  //destructuring 
+        
+//.................................................for empty response..................................................................................    
         
         if (Object.keys(internData).length == 0) {
             return res.status(400).send({ status: false, msg: "please enter intern details" })
         }
 
-//.....................................................................................................................................
+//..................................................for no name given..................................................................................
 
         if (!name) {
             return res.status(400).send({ status: false, msg: "please provide name" })
         }
 
-//.....................................................................................................................................
+//..................................................for name in alphabet only...........................................................................
 
         if (!(/^[a-zA-Z ]+$/.test(name))){
             return res.status(400).send({status:false,msg:"name should be in alphabets"})
         }
 
-//.....................................................................................................................................
+//..................................................for no email given..................................................................................
 
         if (!email) {
             return res.status(400).send({ status: false, msg: "please provide email id" })
         }
 
-//.....................................................................................................................................
+//..................................................for valid email.....................................................................................
 
         if (!/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(email)) {
             return res.status(400).send({ status: false, msg: "enter valid email" })
         }
 
-//.....................................................................................................................................
-
+//..................................................for same email given................................................................................
+        
         let checkemail = await internModel.findOne({ email:email })
         if (checkemail) {
             return res.status(400).send({ status: false, msg: "email is already taken" })
         }
 
-//.....................................................................................................................................
+//...................................................for no mobile number given..........................................................................
 
         if (!mobile) {
             return res.status(400).send({ status: false, msg: "please provide mobile number" })
         }
 
-//.....................................................................................................................................        
+//....................................................for same mobile number given........................................................................     
     
 
         let mob = await internModel.findOne({mobile:mobile}) 
@@ -61,18 +66,16 @@ const createInterns = async function (req, res) {
         return res.status(400).send({status:false,msg:"phone number is already taken"})
         }
 
-// ....................................................................................................................................
+// ....................................................for invalid format of number........................................................................
 
         if (!/^(\+\d{1,3}[- ]?)?\d{10}$/.test(mobile)) {
             return res.status(400).send({ status: false, msg: "enter valid mobile number" })
         }
 
-//.....................................................................................................................................        
+//......................................................for assigning collegeID...............................................................................        
 
         let dataByCollege = await collegeModel.findOne({name:req.body.collegeName})
         if(!dataByCollege){return res.status(400).send({status:false, message:"There is no intern with this college name"})} 
-
-//.....................................................................................................................................
 
         req.body.collegeId = dataByCollege._id       
        
@@ -88,38 +91,48 @@ const createInterns = async function (req, res) {
 }
 
 
-//<<<<<<<<<<<<<< Get Interns Api >>>>>>>>>>>>>>>>>>
+//<<<<<<<<<<<<<<<<< Get Interns Api >>>>>>>>>>>>>>>>>>>>>
 
 
 const collegeDetails = async function (req, res) {
-    try {
-      const CollegeName = req.query.collegeName;
-      if (!CollegeName) {return res.status(404).send({ status: false, msg: "CollegeName is required" });}
-  
-//.....................................................................................................................................
-
-      const collegeData = await collegeModel.findOne({ name: CollegeName })
-      if (collegeData.length == 0) return res.status(404).send({ status: false, msg: "No such college are present" })
-  
-//.....................................................................................................................................
-
-      let findintern = await internModel.find({ collegeId: collegeData._id })
+   
+try {
     
-//.....................................................................................................................................
+//..................................................for empty response...................................................................................    
+    
+     const CollegeName = req.query.collegeName;
+     if (!CollegeName) {
+     return res.status(404).send({ status: false, msg: "CollegeName is required" });
+     }
+  
+//...................................................for no data matching..................................................................................
+
+     const collegeData = await collegeModel.findOne({ name: CollegeName })
+     if (collegeData.length == 0) { 
+     return res.status(404).send({ status: false, msg: "No such college are present" })
+     }
+  
+//...................................................for finding interns..................................................................................
+
+     let findintern = await internModel.find({ collegeId: collegeData._id })
       
-      const data = {
+     const data = {
         name: collegeData.name,
         fullName: collegeData.fullName,
         logoLink: collegeData.logoLink,
         interns: findintern
-      }
+     }
       res.status(200).send({ status: true, data: data });
 
 //.....................................................................................................................................
 
-    } catch (err) {
+    }
+     
+    catch (err) 
+    {
       res.status(500).send({ status: false, msg: err.message });
     }
+
   };
   
   module.exports = { createInterns, collegeDetails };
