@@ -1,21 +1,25 @@
-const { isValidObjectId } = require('mongoose')
-const collegeModel = require('../model/collegeModel')
 const internModel = require('../model/internModel')
+
+const collegeModel = require("../model/collegeModel");
+
+
+//<<<<<<<<<<<<<<<< Create Interns Api >>>>>>>>>>>>>>>>>>> 
+
+
 const createInterns = async function (req, res) {
     try {
         const internData = req.body
-        const { name, email, mobile, collegeId } = internData
+        const { name, email, mobile } = internData
         if (Object.keys(internData).length == 0) {
             return res.status(400).send({ status: false, msg: "please enter intern details" })
         }
-
 
         if (!name) {
             return res.status(400).send({ status: false, msg: "please provide name" })
         }
 
-        if (!(/^[a-zA-Z]+((',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(name))) {
-            return res.status(400).send({ status: false, message: "valid name is required" })
+        if (!(/^[a-zA-Z ]+$/.test(name))){
+            return res.status(400).send({status:false,msg:"name should be in alphabets"})
         }
 
         if (!email) {
@@ -26,7 +30,7 @@ const createInterns = async function (req, res) {
             return res.status(400).send({ status: false, msg: "enter valid email" })
         }
 
-        let checkemail = await internModel.findOne({ email })
+        let checkemail = await internModel.findOne({ email:email })
         if (checkemail) {
             return res.status(400).send({ status: false, msg: "email is already taken" })
         }
@@ -39,15 +43,11 @@ const createInterns = async function (req, res) {
             return res.status(400).send({ status: false, msg: "enter valid mobile number" })
         }
 
+        let dataByCollege = await collegeModel.findOne({name:req.body.collegeName})
+        if(!dataByCollege){return res.status(400).send({status:false, message:"There is no intern with this college name"})} 
 
-        if (!collegeId) {
-            return res.status(400).send({ status: false, msg: "please provide college id" })
-        }
-
-        if (!isValidObjectId(collegeId)) {
-            return res.status(400).send({ status: false, msg: "please enter valid college id" })
-        }
-
+        req.body.collegeId = dataByCollege._id       
+       
         let result = await internModel.create(internData)
         return res.status(201).send({ status: true, data: result })
     }
@@ -56,4 +56,32 @@ const createInterns = async function (req, res) {
     }
 }
 
-module.exports.createInterns = createInterns
+
+//<<<<<<<<<<<<<< Get Interns Api >>>>>>>>>>>>>>>>>>
+
+
+const collegeDetails = async function (req, res) {
+    try {
+      const CollegeName = req.query.collegeName;
+      if (!CollegeName) {return res.status(404).send({ status: false, msg: "CollegeName is required" });}
+  
+      const collegeData = await collegeModel.findOne({ name: CollegeName })
+      if (collegeData.length == 0) return res.status(404).send({ status: false, msg: "No such college are present" })
+  
+      let findintern = await internModel.find({ collegeId: collegeData._id })
+    
+      const data = {
+        name: collegeData.name,
+        fullName: collegeData.fullName,
+        logoLink: collegeData.logoLink,
+        interns: findintern
+      }
+      res.status(200).send({ status: true, data: data });
+    } catch (err) {
+      res.status(500).send({ status: false, msg: err.message });
+    }
+  };
+  
+  module.exports = { createInterns, collegeDetails };
+
+
