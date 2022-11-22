@@ -1,6 +1,7 @@
 const collegeModel = require("../model/collegeModel");
 
 //-------------------------<Create College Api>------------------------
+
 const createCollege = async function (req, res) {
     try {
         //---------------------------For No Entry-----------------------
