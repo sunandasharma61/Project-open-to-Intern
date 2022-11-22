@@ -54,6 +54,14 @@ const createInterns = async function (req, res) {
         }
 
 //.....................................................................................................................................        
+    
+
+        let mob = await internModel.findOne({mobile:mobile}) 
+        if (mob) {
+        return res.status(400).send({status:false,msg:"phone number is already taken"})
+        }
+
+// ....................................................................................................................................
 
         if (!/^(\+\d{1,3}[- ]?)?\d{10}$/.test(mobile)) {
             return res.status(400).send({ status: false, msg: "enter valid mobile number" })
