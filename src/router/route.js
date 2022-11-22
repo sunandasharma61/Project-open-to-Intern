@@ -5,9 +5,5 @@ const collegeController = require("../controller/collegeController")
 const internController = require("../controller/internController")
 router.post("/functionup/colleges", collegeController.createCollege)
 router.post("/functionup/interns",internController.createInterns)
-
-
-// router.all("/*", function (req, res) {
-//     res.status(404).send({ msg: "invalid http request" })
-// })
+router.get("/funtionup/collegeDetails",internController.collegeDetails)
 module.exports = router;
