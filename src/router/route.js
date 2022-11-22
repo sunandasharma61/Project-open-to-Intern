@@ -4,7 +4,7 @@ const router = express.Router()
 const collegeController = require("../controller/collegeController")
 const internController = require("../controller/internController")
 
-// <<<<<<<<<<<<<<<<<<<<< Routers >>>>>>>>>>>>>>>>>>>>>>>
+//-----------------------Routers---------------------------
 
 router.post("/functionup/colleges", collegeController.createCollege) 
 
