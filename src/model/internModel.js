@@ -12,7 +12,7 @@ email:{
     unique:true
 },
 mobile:{
-    type:Number,
+    type:String,
     required :true
 },
 collegeId:{
