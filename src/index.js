@@ -1,12 +1,10 @@
 const express=require('express');
-const bodyParser=require('body-parser');
 const { default: mongoose }=require('mongoose');
 const route=require('./router/route.js');
 
 const app=express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.json());
 
 
 mongoose.connect("mongodb+srv://project2:VfktOc3jUKliwHi8@cluster1.bil9ljf.mongodb.net/project2", {
