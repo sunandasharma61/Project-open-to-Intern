@@ -4,24 +4,29 @@
   "description": "project/internshipGroup5",
   "main": "index.js",
   "scripts": {
-    "test": "error/server error"
+    "test": "error/server error",
+    "dev": "next dev",
+    "build": "next build",
+    "lint": "next lint",
+    "export": "next export"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sourabh1392/project2.git"
+    "url": "git+https://github.com/sunandasharma61/intern-Project.git"
   },
-  "author": "Sunanda Sharma,Sourabh Patil,Shivam Shukla",
+  "author": "Sunanda Sharma",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sourabh1392/project2/issues"
+    "url": "https://github.com/sunandasharma61/intern-Project.git"
   },
-  "homepage": "https://github.com/sourabh1392/project2#readme",
+  "homepage": "https://github.com/sunandasharma61/intern-Project.git",
   "dependencies": {
     "body-parser": "^1.20.1",
     "express": "^4.18.2",
     "is-valid-http-url": "^1.0.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.2",
+    "multer": "^1.4.5-lts.1",
     "nodemon": "^2.0.20"
   }
 }
