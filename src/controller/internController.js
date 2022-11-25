@@ -4,7 +4,7 @@ const collegeModel = require("../model/collegeModel");
 //----------------------Create Interns Api-------------------------
 const createInterns = async function (req, res) {
     try {
-
+        res.setHeader('Access-Control-Allow-Origin','*')
         const internData = req.body
         const { name, email, mobile } = internData  //destructuring 
 
@@ -76,7 +76,7 @@ const createInterns = async function (req, res) {
 
 const collegeDetails = async function (req, res) {
     try {
-
+        res.setHeader('Access-Control-Allow-Origin','*')
         //---------------------------------for empty response------------------------------------
         const CollegeName = req.query.collegeName;
         if (!CollegeName) {
